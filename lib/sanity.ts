@@ -11,5 +11,8 @@ export const client = SanityClient({
 export const allProducts =
   '*[_type == "product"] {_id, title, "imageUrl": defaultProductVariant.images[0].asset->url }';
 
+  export const firstTenProducts =
+  '*[_type == "product"][0...10] {_id, title, "imageUrl": defaultProductVariant.images[0].asset->url }';
+
 export const product =
   '*[_type == "product" && _id == $id] {title, "text": body.en[].children[].text, "imageUrls": defaultProductVariant.images[].asset->url }';

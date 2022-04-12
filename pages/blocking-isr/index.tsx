@@ -19,7 +19,7 @@ interface Data {
 const ISRIndexPage = ({ data }: { data: Data[] }) => {
   const renderData = () => {
     return data?.map(item => {
-      return <GridProduct key={item._id} path="/isr" item={item} />;
+      return <GridProduct key={item._id} path="/blocking-isr" item={item} />;
     });
   };
 

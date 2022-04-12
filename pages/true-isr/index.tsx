@@ -19,7 +19,7 @@ interface Data {
 const MISRIndexPage = ({ data }: { data: Data[] }) => {
   const renderData = () => {
     return data?.map(item => {
-      return <GridProduct key={item._id} path="/misr" item={item} />;
+      return <GridProduct key={item._id} path="/true-isr" item={item} />;
     });
   };
 

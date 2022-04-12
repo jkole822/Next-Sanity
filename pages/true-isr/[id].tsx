@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { Product } from "../../components/Product";
 
 // Lib
-import { client, allProducts, product } from "../../lib/sanity";
+import { client, firstTenProducts, product } from "../../lib/sanity";
 
 // Types
 import { GetStaticProps, GetStaticPaths } from "next";
@@ -28,33 +28,16 @@ interface Path {
 }
 
 const MISRDetailPage = ({ data }: { data: Data }) => {
-  const {
-    isFallback,
-    query: { id },
-  } = useRouter();
-
-  const [clientData, setClientData] = useState<Data>();
-
-  useEffect(() => {
-    console.log(isFallback);
-
-    if (isFallback) {
-      client.fetch(product, { id: id }).then(data => {
-        setClientData(data);
-      });
-    }
-  }, [isFallback]);
-
-  if (!data || !clientData) {
+  if (!data) {
     return <main className="loading-text">Loading...</main>;
   }
 
   return (
     <main>
-      <Link href="/misr">
+      <Link href="/true-isr">
         <a>Return to Products</a>
       </Link>
-      <Product item={isFallback || !data ? clientData : data} />
+      <Product item={data} />
     </main>
   );
 };
@@ -72,13 +55,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const data = await client.fetch(allProducts);
+  const data = await client.fetch(firstTenProducts);
 
-  const allPaths: Path[] = data.map((item: Data) => ({
+  const paths: Path[] = data.map((item: Data) => ({
     params: { id: item._id },
   }));
-
-  const paths = allPaths.slice(0, 100);
 
   return { paths, fallback: true };
 };

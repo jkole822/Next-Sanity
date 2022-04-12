@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Product } from "../../components/Product";
 
 // Lib
-import { client, product } from "../../lib/sanity";
+import { client, firstTenProducts, product } from "../../lib/sanity";
 
 // Types
 import { GetStaticProps, GetStaticPaths } from "next";
@@ -25,7 +25,7 @@ interface Path {
 
 const ISRDetailPage = ({ data }: { data: Data }) => (
   <main>
-    <Link href="/isr">
+    <Link href="/blocking-isr">
       <a>Return to Products</a>
     </Link>
     <Product item={data} />
@@ -45,7 +45,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths: Path[] = [];
+  const data = await client.fetch(firstTenProducts);
+
+  const paths: Path[] = data.map((item: Data) => ({
+    params: { id: item._id },
+  }));
 
   return { paths, fallback: "blocking" };
 };

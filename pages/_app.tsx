@@ -16,8 +16,6 @@ declare global {
 function MyApp({ Component, pageProps }: AppProps) {
   //@ts-ignore
   Router.onRouteChangeStart = (url: Location) => {
-    console.log("URL: ", url);
-    console.log("Window Location Pathname", window.location.pathname);
     if (String(url) !== window.location.pathname) {
       window.routeTimeout = setTimeout(() => {
         console.log("refresh");
@@ -28,11 +26,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   };
 
   //@ts-ignore
-  Router.onRouteChangeComplete = (url: Location) => {
+  Router.onRouteChangeComplete = () => {
     clearTimeout(window.routeTimeout);
     NProgress.done();
   };
 
+  //@ts-ignore
   return <Component {...pageProps} />;
 }
 

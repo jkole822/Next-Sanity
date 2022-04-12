@@ -64,36 +64,41 @@ const Home: NextPage = () => {
               </a>
             </Link>
 
-            <Link href="/isr">
+            <Link href="/blocking-isr">
               <a className={styles.card}>
-                <h2>ISR</h2>
+                <h2>ISR with Blocking Fallback</h2>
                 <p>
                   Incremental Static Regeneration is a combination of SSG, and
                   SSR, where the page is served statically, but at a certain
-                  time and certain condition that page will rebuild and fetch
-                  the data from the API again.
+                  time and condition that page will rebuild and fetch the data
+                  from the API again.
+                </p>
+                <p>
+                  Only those pages that are specified by the getStaticPaths
+                  function will be generated at build time while all other pages
+                  will be server-side rendered. When the fallback parameter of
+                  getStaticPaths is set to &ldbquo;blocking&rdbquo;, the page
+                  will not be shown until the page can be hydrated with data.
                 </p>
                 <p>
                   Important to note, initial ISR load time is slow because of
                   upload speed, and more specifically, back and forth
-                  communication with the CDN.
+                  communication with the CDN. This communication issue can be
+                  circumvented by programmatically setting the window location
+                  to the destination url.
                 </p>
               </a>
             </Link>
 
-            <Link href="/misr">
+            <Link href="/true-isr">
               <a className={styles.card}>
-                <h2>ISR with CSR Fallback</h2>
+                <h2>ISR with True Fallback</h2>
                 <p>
-                  Solution found on Medium that leverages client-side rendering
-                  with the NextJS Fallback feature to refresh the page on
-                  initial loading to instead show client-side rendered data.
-                  After the initial load, the page will be cached and served
-                  statically.
-                </p>
-                <p>
-                  Source:
-                  https://medium.com/@SandeepDinesh/eliminating-next-js-isr-builds-with-client-side-rendering-2c30ee198831
+                  When the fallback parameter of getStaticPaths is set to
+                  `true`, the page will be initially generated with no data,
+                  and then hydrated once data is received. Therefore, is
+                  important to conditionally display a fallback until data is
+                  received.
                 </p>
               </a>
             </Link>
